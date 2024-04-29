@@ -1,0 +1,13 @@
+footer {
+    background-color: #393939;
+    text-align: center;
+    font-size: 11.2px;
+    letter-spacing: .0094em;
+    line-height: 21px;
+}
+
+@media (max-width: 992px) {
+    footer {
+        margin-top: 7rem;
+    }
+}

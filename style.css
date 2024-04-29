@@ -49,3 +49,26 @@ body {
 #main {
   transition: margin-left .5s;
 }
+
+.container-inicial {
+  margin-top: 6rem;
+}
+
+.bg-imput {
+  background-color: #191f24;
+  border-color: #323e49;
+}
+
+.bg-imput:focus {
+  background-color:#191f24 ;
+}
+
+.titulo-footer {
+  font-size: 22px;
+}
+
+@media (max-width: 991px) {
+  .sidebar {
+    z-index: 1;
+  }
+}

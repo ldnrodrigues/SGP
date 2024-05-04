@@ -26,6 +26,36 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-<HASH>" crossorigin="anonymous" />
 
+  <?php
+  // Inclui o arquivo de conexão com o banco de dados
+  include '../db_connection.php';
+
+  // Verifica se houve mudança de mês
+  if (date('d') == 1) {
+      // Adaptação: Extrair o mês e o ano atual
+      $mes_ano_atual = date('Ym');
+      
+      // Adaptação: Renomear a tabela de despesas para armazenar os dados do mês anterior
+      $tabela_mes_anterior = "despesas_$mes_ano_atual";
+      $sql_rename = "ALTER TABLE despesas RENAME TO $tabela_mes_anterior";
+      if ($conn->query($sql_rename) !== TRUE) {
+          echo "Erro ao renomear tabela de despesas: " . $conn->error;
+      }
+      
+      // Adaptação: Criar uma nova tabela de despesas para o novo mês
+      $nova_tabela_despesas = "despesas";
+      $sql_create = "CREATE TABLE IF NOT EXISTS $nova_tabela_despesas (
+          id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+          valor DECIMAL(10,2) NOT NULL,
+          data DATE NOT NULL,
+          descricao VARCHAR(255) NOT NULL
+      )";
+      if ($conn->query($sql_create) !== TRUE) {
+          echo "Erro ao criar nova tabela de despesas: " . $conn->error;
+      }
+  }
+  ?>
+
 </head>
 
 <body style="background-color: #191f24;">
@@ -50,355 +80,100 @@
 
   <!-- Página principal -->
 
+  <div class="container container-inicial bg-dark shadow rounded">
+    <div class="row"></div>
+
+  <!-- Conteúdo da semana 1 -->
   <div class="container mt-5">
     <div class="row">
       <h1>Semana 1</h1><hr>
     </div>
-  </div>
-
-  <div class="container mt-2" id="main">
-    <div class="row">
-
-      <div class="col d-flex justify-content-end">
-        <div class="card bg-danger">
-          <div class="card-body">
-            <img src="../Imagens/Icones/perda.png" alt="" style="max-width: 45px;">
-            <h4 class="card-title text-light mt-3">Total Despesas</h4>
-            <h4 class="card-text text-light mt-3">R$ - 1.500,00</h4>
-            <hr style="color: #fff;">
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="container mt-5">
-    <div class="row">
+    <div class="row justify-content-center">
       <div class="col-12">
-        <table class="table table-dark table-rounded text-center">
-          <thead>
-            <tr>
-              <th scope="col">Segunda</th>
-              <th scope="col">Terça</th>
-              <th scope="col">Quarta</th>
-              <th scope="col">Quinta</th>
-              <th scope="col">Sexta</th>
-              <th scope="col">Sábado</th>
-              <th scope="col">Domingo</th>
-              <th scope="col">Ação</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-          </tbody>
-        </table>
+        <?php include __DIR__ . '/../inserir-e-exibir-despesas.php'; ?>
       </div>
     </div>
-  </div>
+      <div class="container mt-3 d-flex justify-content-end">
+        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesa1">Adicionar Despesa</button>
+      </div>
+    </div>
 
-  <!-- Botão para abrir o modal -->
-  <div class="container mt-3 d-flex justify-content-end">
-    <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesa">Adicionar Despesa</button>
-  </div>
-
+  <!-- Conteúdo da semana 2 -->
   <div class="container mt-5">
     <div class="row">
       <h1>Semana 2</h1><hr>
     </div>
-  </div>
-
-  <div class="container mt-2" id="main">
-    <div class="row">
-
-      <div class="col d-flex justify-content-end">
-        <div class="card bg-danger">
-          <div class="card-body">
-            <img src="../Imagens/Icones/perda.png" alt="" style="max-width: 45px;">
-            <h4 class="card-title text-light mt-3">Total Despesas</h4>
-            <h4 class="card-text text-light mt-3">R$ - 1.500,00</h4>
-            <hr style="color: #fff;">
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="container mt-5">
-    <div class="row">
+    <div class="row justify-content-center">
       <div class="col-12">
-        <table class="table table-dark table-rounded text-center">
-          <thead>
-            <tr>
-              <th scope="col">Segunda</th>
-              <th scope="col">Terça</th>
-              <th scope="col">Quarta</th>
-              <th scope="col">Quinta</th>
-              <th scope="col">Sexta</th>
-              <th scope="col">Sábado</th>
-              <th scope="col">Domingo</th>
-              <th scope="col">Ação</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-          </tbody>
-        </table>
+        <?php include __DIR__ . '/../inserir-e-exibir-despesas.php'; ?>
       </div>
     </div>
-  </div>
+      <div class="container mt-3 d-flex justify-content-end">
+        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesa1">Adicionar Despesa</button>
+      </div>
+    </div>
 
-  <!-- Botão para abrir o modal -->
-  <div class="container mt-3 d-flex justify-content-end">
-    <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesa">Adicionar Despesa</button>
-  </div>
-
+  <!-- Conteúdo da semana 3 -->
   <div class="container mt-5">
     <div class="row">
       <h1>Semana 3</h1><hr>
     </div>
-  </div>
-
-  <div class="container mt-2" id="main">
-    <div class="row">
-
-      <div class="col d-flex justify-content-end">
-        <div class="card bg-danger" style="max-width: 20%;">
-          <div class="card-body">
-            <img src="../Imagens/Icones/perda.png" alt="" style="max-width: 45px;">
-            <h4 class="card-title text-light mt-3">Total Despesas</h4>
-            <h4 class="card-text text-light mt-3">R$ - 1.500,00</h4>
-            <hr style="color: #fff;">
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="container mt-5">
-    <div class="row">
+    <div class="row justify-content-center">
       <div class="col-12">
-        <table class="table table-dark table-rounded text-center">
-          <thead>
-            <tr>
-              <th scope="col">Segunda</th>
-              <th scope="col">Terça</th>
-              <th scope="col">Quarta</th>
-              <th scope="col">Quinta</th>
-              <th scope="col">Sexta</th>
-              <th scope="col">Sábado</th>
-              <th scope="col">Domingo</th>
-              <th scope="col">Ação</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-          </tbody>
-        </table>
+        <?php include __DIR__ . '/../inserir-e-exibir-despesas.php'; ?>
       </div>
     </div>
-  </div>
+      <div class="container mt-3 d-flex justify-content-end">
+        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesa1">Adicionar Despesa</button>
+      </div>
+    </div>
 
-  <!-- Botão para abrir o modal -->
-  <div class="container mt-3 d-flex justify-content-end">
-    <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesa">Adicionar Despesa</button>
-  </div>
-
+  <!-- Conteúdo da semana 4 -->
   <div class="container mt-5">
     <div class="row">
       <h1>Semana 4</h1><hr>
     </div>
-  </div>
-
-  <div class="container mt-2" id="main">
-    <div class="row">
-
-<div class="col d-flex justify-content-end">
-        <div class="card bg-danger" style="max-width: 20%;">
-          <div class="card-body">
-            <img src="../Imagens/Icones/perda.png" alt="" style="max-width: 45px;">
-            <h4 class="card-title text-light mt-3">Total Despesas</h4>
-            <h4 class="card-text text-light mt-3">R$ - 1.500,00</h4>
-            <hr style="color: #fff;">
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="container mt-5">
-    <div class="row">
+    <div class="row justify-content-center">
       <div class="col-12">
-        <table class="table table-dark table-rounded text-center">
-          <thead>
-            <tr>
-              <th scope="col">Segunda</th>
-              <th scope="col">Terça</th>
-              <th scope="col">Quarta</th>
-              <th scope="col">Quinta</th>
-              <th scope="col">Sexta</th>
-              <th scope="col">Sábado</th>
-              <th scope="col">Domingo</th>
-              <th scope="col">Ação</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-          </tbody>
-        </table>
+        <?php include __DIR__ . '/../inserir-e-exibir-despesas.php'; ?>
       </div>
     </div>
+      <div class="container mt-3 d-flex justify-content-end">
+        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesa1">Adicionar Despesa</button>
+      </div>
+    </div>
+
   </div>
 
-<!-- Botão para abrir o modal -->
-<div class="container mt-3 d-flex justify-content-end">
-  <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesa">Adicionar Despesa</button>
-</div>
-
-<!-- Modal para adicionar despesas -->
-<div class="modal fade" id="modalAdicionarDespesa" tabindex="-1" aria-labelledby="modalAdicionarDespesaLabel" aria-hidden="true" style="margin-top: 12rem;">
-  <div class="modal-dialog">
+<!-- Modal para adicionar despesas da semana 1 -->
+<div class="modal fade" id="modalAdicionarDespesa1" tabindex="-1" aria-labelledby="modalAdicionarDespesa1Label" aria-hidden="true" style="margin-top: 12rem;">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content bg-dark text-light">
       <div class="modal-header">
         <h5 class="modal-title">Adicionar Despesa</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="mb-3">
-          <label for="valorModal" class="form-label">Valor</label>
-          <input type="number" class="form-control bg-imput text-light" id="valorModal">
-        </div>
-        <div class="mb-3">
-          <label for="dataModal" class="form-label">Data</label>
-          <input type="date" class="form-control bg-imput text-light" id="dataModal">
-        </div>
-        <div class="mb-3">
-          <label for="descricaoModal" class="form-label">Descrição</label>
-          <input type="text" class="form-control bg-imput text-light" id="descricaoModal">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-success" onclick="adicionarDespesa()">Adicionar Despesa</button>
+        <form action="Semanal.php" method="POST">
+          <div class="mb-3">
+            <label for="valorModal1" class="form-label">Valor</label>
+            <input type="number" class="form-control bg-imput text-light" id="valorModal1" name="valor">
+          </div>
+          <div class="mb-3">
+            <label for="dataModal1" class="form-label">Data</label>
+            <input type="date" class="form-control bg-imput text-light" id="dataModal1" name="data">
+          </div>
+          <div class="mb-3">
+            <label for="categoriaModal1" class="form-label">Categoria</label>
+            <select class="form-select bg-imput text-light" id="categoriaModal1" name="categoria">
+              <?php include '../consulta-modal.php' ?>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success">Adicionar Despesa</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

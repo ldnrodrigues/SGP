@@ -26,6 +26,8 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-<HASH>" crossorigin="anonymous" />
 
+  <?php include '../db_connection.php'; ?>
+
 </head>
 
 <body style="background-color: #191f24;">
@@ -91,39 +93,11 @@
     </div>
   </div>
 
+  <!-- Exibir tabela de despesas -->
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-12">
-        <table class="table table-dark table-rounded text-center">
-          <thead>
-            <tr>
-              <th scope="col">Valor</th>
-              <th scope="col">Descrição</th>
-              <th scope="col">Data</th>
-              <th scope="col">Ação</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>Microsoft</td>
-              <td>26/04</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-            <tr>
-              <td>R$ 20,00</td>
-              <td>Restaurante do Tio Chico</td>
-              <td>26/04</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-            <tr>
-              <td>R$ 30,00</td>
-              <td>Transcal</td>
-              <td>26/04</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-success btn-sm">Atualizar</button></td>
-            </tr>
-          </tbody>
-        </table>
+        <?php include __DIR__ . '/../inserir-e-exibir-despesas.php'; ?>
       </div>
     </div>
   </div>
@@ -145,22 +119,24 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="mb-3">
-          <label for="valorModal" class="form-label">Valor</label>
-          <input type="number" class="form-control bg-imput text-light" id="valorModal">
-        </div>
-        <div class="mb-3">
-          <label for="dataModal" class="form-label">Data</label>
-          <input type="date" class="form-control bg-imput text-light" id="dataModal">
-        </div>
-        <div class="mb-3">
-          <label for="descricaoModal" class="form-label">Descrição</label>
-          <input type="text" class="form-control bg-imput text-light" id="descricaoModal">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-success" onclick="adicionarDespesa()">Adicionar Despesa</button>
+        <form action="Mensal.php" method="post">
+          <div class="mb-3">
+            <label for="valorModal" class="form-label">Valor</label>
+            <input type="number" class="form-control bg-imput text-light" id="valorModal" name="valor">
+          </div>
+          <div class="mb-3">
+            <label for="dataModal" class="form-label">Data</label>
+            <input type="date" class="form-control bg-imput text-light" id="dataModal" name="data">
+          </div>
+          <div class="mb-3">
+            <label for="descricaoModal" class="form-label">Descrição</label>
+            <input type="text" class="form-control bg-imput text-light" id="descricaoModal" name="descricao">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success">Adicionar Despesa</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

@@ -2,17 +2,13 @@
 
 include 'db_connection.php';
 
-// Verifica se os dados foram enviados via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recuperando os dados do formulário
     $valor = $_POST['valor'];
     $data = $_POST['data'];
     $categoria_id = $_POST['categoria'];
 
-    // Preparando a query de inserção
     $sql = "INSERT INTO despesas (valor, data, categoria_id) VALUES ('$valor', '$data', '$categoria_id')";
 
-    // Executando a query de inserção
     if ($conn->query($sql) === TRUE) {
         header("Location: Semanal.php");
         exit();
@@ -21,13 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Seleciona todas as despesas do banco de dados
 $sql = "SELECT despesas.valor, despesas.data, categorias.nome AS nome_categoria 
         FROM despesas 
         INNER JOIN categorias ON despesas.categoria_id = categorias.id";
 $resultado = $conn->query($sql);
 
-// Verifica se há despesas para exibir
 if ($resultado->num_rows > 0) {
     echo "<table class='table table-dark table-rounded text-center'>";
     echo "<thead>";
@@ -40,7 +34,6 @@ if ($resultado->num_rows > 0) {
     echo "</thead>";
     echo "<tbody>";
 
-    // Loop através de todas as despesas e exibe na tabela
     while ($row = $resultado->fetch_assoc()) {
         echo "<tr>";
         echo "<td>R$ " . $row['valor'] . "</td>";

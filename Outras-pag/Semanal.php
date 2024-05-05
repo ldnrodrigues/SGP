@@ -10,6 +10,8 @@
   <link rel="shortcut icon" href="">
   <title>Sistema de Gestão Financeira Pessoal</title>
 
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
@@ -27,17 +29,22 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-<HASH>" crossorigin="anonymous" />
 
   <?php
+  // Inclui o arquivo de conexão com o banco de dados
   include '../db_connection.php';
 
+  // Verifica se houve mudança de mês
   if (date('d') == 1) {
+      // Adaptação: Extrair o mês e o ano atual
       $mes_ano_atual = date('Ym');
       
+      // Adaptação: Renomear a tabela de despesas para armazenar os dados do mês anterior
       $tabela_mes_anterior = "despesas_$mes_ano_atual";
       $sql_rename = "ALTER TABLE despesas RENAME TO $tabela_mes_anterior";
       if ($conn->query($sql_rename) !== TRUE) {
           echo "Erro ao renomear tabela de despesas: " . $conn->error;
       }
       
+      // Adaptação: Criar uma nova tabela de despesas para o novo mês
       $nova_tabela_despesas = "despesas";
       $sql_create = "CREATE TABLE IF NOT EXISTS $nova_tabela_despesas (
           id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -85,63 +92,17 @@
     </div>
     <div class="row justify-content-center">
       <div class="col-12">
-        <?php include __DIR__ . '/../inserir-e-exibir-despesas.php'; ?>
+        <?php include __DIR__ . '/../crud.php'; ?>
       </div>
     </div>
-      <div class="container mt-3 d-flex justify-content-end">
-        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesa1">Adicionar Despesa</button>
+      <div class="container mt-1 d-flex justify-content-end">
+        <button class="btn btn-light mb-4" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesaSemana1">Adicionar Despesa</button>
       </div>
     </div>
-
-  <!-- Conteúdo da semana 2 -->
-  <div class="container mt-5">
-    <div class="row">
-      <h1>Semana 2</h1><hr>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-12">
-        <?php include __DIR__ . '/../inserir-e-exibir-despesas.php'; ?>
-      </div>
-    </div>
-      <div class="container mt-3 d-flex justify-content-end">
-        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesa1">Adicionar Despesa</button>
-      </div>
-    </div>
-
-  <!-- Conteúdo da semana 3 -->
-  <div class="container mt-5">
-    <div class="row">
-      <h1>Semana 3</h1><hr>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-12">
-        <?php include __DIR__ . '/../inserir-e-exibir-despesas.php'; ?>
-      </div>
-    </div>
-      <div class="container mt-3 d-flex justify-content-end">
-        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesa1">Adicionar Despesa</button>
-      </div>
-    </div>
-
-  <!-- Conteúdo da semana 4 -->
-  <div class="container mt-5">
-    <div class="row">
-      <h1>Semana 4</h1><hr>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-12">
-        <?php include __DIR__ . '/../inserir-e-exibir-despesas.php'; ?>
-      </div>
-    </div>
-      <div class="container mt-3 d-flex justify-content-end">
-        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesa1">Adicionar Despesa</button>
-      </div>
-    </div>
-
   </div>
 
 <!-- Modal para adicionar despesas da semana 1 -->
-<div class="modal fade" id="modalAdicionarDespesa1" tabindex="-1" aria-labelledby="modalAdicionarDespesa1Label" aria-hidden="true" style="margin-top: 12rem;">
+<div class="modal fade" id="modalAdicionarDespesaSemana1" tabindex="-1" aria-labelledby="modalAdicionarDespesa1Label" aria-hidden="true" style="margin-top: 12rem;">
   <div class="modal-dialog modal-lg">
     <div class="modal-content bg-dark text-light">
       <div class="modal-header">
@@ -174,10 +135,10 @@
   </div>
 </div>
 
-<footer id="footer" class="bg-dark shadow fixed-bottom">
+<footer id="footer" class="bg-dark shadow footer mt-5">
   <div class="container">
     <div class="row justify-content-center mt-3">
-      <p class="titulo-footer">SGP v1.0.0</p>
+      <p class="titulo-footer mt-4">SGP v1.0.0</p>
     </div>
   </div>
 </footer>

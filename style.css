@@ -35,7 +35,7 @@ body {
 }
 
 .sidebar a:hover {
-  color: #2bff00;
+  color: #424649;
 }
 
 .sidebar .closebtn {
@@ -51,7 +51,8 @@ body {
 }
 
 .container-inicial {
-  margin-top: 6rem;
+  margin-top: 10rem;
+  margin-bottom: 10rem;
 }
 
 .bg-imput {
@@ -65,6 +66,25 @@ body {
 
 .titulo-footer {
   font-size: 22px;
+}
+
+.icon-container {
+  display: inline-block;
+}
+
+.icon-wrapper {
+  display: inline-block;
+  padding: 10px;
+}
+
+.icon-wrapper:hover {
+  background-color: #424649;
+  border-radius: 50%;
+}
+
+::selection {
+  background-color: #000000;
+  color: #ffffff;
 }
 
 @media (max-width: 991px) {

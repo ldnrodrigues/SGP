@@ -4,6 +4,7 @@ footer {
     font-size: 11.2px;
     letter-spacing: .0094em;
     line-height: 21px;
+    z-index: -1 !important;
 }
 
 @media (max-width: 992px) {

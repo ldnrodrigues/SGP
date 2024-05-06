@@ -52,6 +52,16 @@
           echo "Erro ao criar nova tabela de despesas: " . $conn->error;
       }
   }
+
+    // Query para calcular o total das despesas
+  $sql = "SELECT SUM(valor) AS total_despesas FROM despesas_semanais";
+  $result = $conn->query($sql);
+  $total_despesas = 0;
+
+  if ($result->num_rows > 0) {
+      $row = $result->fetch_assoc();
+      $total_despesas = $row['total_despesas'];
+  }
   ?>
 
 </head>
@@ -84,18 +94,36 @@
   <!-- Conteúdo da semana 1 -->
   <div class="container mt-5">
     <div class="row">
-      <h1>Semana 1</h1>
+      <h2>Semana 1</h2>
     </div>
-    <div class="row justify-content-center">
-      <div class="col-12 mt-5">
-        <?php include __DIR__ . '/../crud.php'; ?>
-      </div>
-    </div>
-      <div class="container mt-1 d-flex justify-content-end">
-        <button class="btn btn-light mb-4" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesaSemana1">Adicionar Despesa</button>
+
+    <div class="container mt-3" id="main" style="margin-bottom: 2rem;">
+      <div class="row">
+        <div class="card bg-danger shadow rounded" style="max-width: 370px;">
+          <div class="card-body">
+            <img src="../Imagens/Icones/perda.png" alt="" style="max-width: 41px;">
+            <h4 class="card-title text-light mt-3">Total Despesas da Semana</h4>
+            <h4 class="card-text text-light mt-3">R$ <?php echo number_format($total_despesas, 2, ',', '.'); ?></h4>
+            <hr style="color: #fff;">
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12">
+          <?php include __DIR__ . '/../crud.php'; ?>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-1 d-flex justify-content-end">
+      <button class="btn btn-light mb-4" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesaSemana1">Adicionar Despesa</button>
+    </div>
+  </div>
+</div>
 
 <footer id="footer" class="bg-dark shadow footer fixed-bottom">
   <div class="container">
@@ -116,6 +144,7 @@
       </div>
       <div class="modal-body">
         <form action="Semanal.php" method="POST">
+          <input type="hidden" name="action" value="inserir">
           <div class="mb-3">
             <label for="valorModal1" class="form-label">Valor</label>
             <input type="number" class="form-control bg-imput text-light" id="valorModal1" name="valor">
@@ -139,6 +168,7 @@
     </div>
   </div>
 </div>
+
 
 </body>
 </php>

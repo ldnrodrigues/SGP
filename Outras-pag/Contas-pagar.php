@@ -10,6 +10,8 @@
   <link rel="shortcut icon" href="">
   <title>Sistema de Gestão Financeira Pessoal</title>
 
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
@@ -26,11 +28,37 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-<HASH>" crossorigin="anonymous" />
 
+  <?php
+
+  include '../db_connection.php';
+
+  if (date('d') == 1) {
+      $mes_ano_atual = date('Ym');
+      
+      $tabela_mes_anterior = "despesas_$mes_ano_atual";
+      $sql_rename = "ALTER TABLE despesas RENAME TO $tabela_mes_anterior";
+      if ($conn->query($sql_rename) !== TRUE) {
+          echo "Erro ao renomear tabela de despesas: " . $conn->error;
+      }
+      
+      $nova_tabela_despesas = "despesas";
+      $sql_create = "CREATE TABLE IF NOT EXISTS $nova_tabela_despesas (
+          id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+          valor DECIMAL(10,2) NOT NULL,
+          data DATE NOT NULL,
+          descricao VARCHAR(255) NOT NULL
+      )";
+      if ($conn->query($sql_create) !== TRUE) {
+          echo "Erro ao criar nova tabela de despesas: " . $conn->error;
+      }
+  }
+  ?>
+
 </head>
 
 <body style="background-color: #191f24;">
 
-  <header class="navbar p-1 bg-dark shadow justify-content-start">
+  <header class="navbar p-1 bg-dark shadow justify-content-start fixed-top">
     <div class="col-4">
       <button class="openbtn btn btn-dark" onclick="openNav()">☰</button>
     </div>
@@ -50,107 +78,67 @@
 
   <!-- Página principal -->
 
+  <div class="container container-inicial bg-dark shadow rounded">
+    <div class="row"></div>
+
+  <!-- Conteúdo da semana 1 -->
   <div class="container mt-5">
     <div class="row">
-      <h1>Contas a Pagar</h1><hr>
+      <h1>Contas a Pagar</h1>
     </div>
-  </div>
-
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-12">
-        <table class="table table-dark table-rounded text-center">
-          <thead>
-            <tr>
-              <th scope="col">Segunda</th>
-              <th scope="col">Terça</th>
-              <th scope="col">Quarta</th>
-              <th scope="col">Quinta</th>
-              <th scope="col">Sexta</th>
-              <th scope="col">Sábado</th>
-              <th scope="col">Domingo</th>
-              <th scope="col">Ação</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-primary btn-sm">Atualizar</button></td>
-            </tr>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-primary btn-sm">Atualizar</button></td>
-            </tr>
-            <tr>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td>R$ 80,00</td>
-              <td><button type="button" class="btn btn-danger me-md-2 btn-sm">Deletar</button><button type="button" class="btn btn-primary btn-sm">Atualizar</button></td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="row justify-content-center">
+      <div class="col-12 mt-5">
+        <?php include __DIR__ . '/../crud.php'; ?>
+      </div>
+    </div>
+      <div class="container mt-1 d-flex justify-content-end">
+        <button class="btn btn-light mb-4" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesaSemana1">Adicionar Despesa</button>
       </div>
     </div>
   </div>
 
-<!-- Botão para abrir o modal -->
-<div class="container mt-3 d-flex justify-content-end">
-  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesa" style="margin-right: 2.5rem;">Adicionar Despesa</button>
-</div>
-
-<!-- Modal para adicionar despesas -->
-<div class="modal fade" id="modalAdicionarDespesa" tabindex="-1" aria-labelledby="modalAdicionarDespesaLabel" aria-hidden="true" style="margin-top: 12rem;">
-  <div class="modal-dialog">
-    <div class="modal-content bg-dark text-light">
-      <div class="modal-header">
-        <h5 class="modal-title">Adicionar Despesa</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label for="valorModal" class="form-label">Valor</label>
-          <input type="number" class="form-control bg-imput text-light" id="valorModal">
-        </div>
-        <div class="mb-3">
-          <label for="dataModal" class="form-label">Data</label>
-          <input type="date" class="form-control bg-imput text-light" id="dataModal">
-        </div>
-        <div class="mb-3">
-          <label for="descricaoModal" class="form-label">Descrição</label>
-          <input type="text" class="form-control bg-imput text-light" id="descricaoModal">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-success" onclick="adicionarDespesa()" style="margin-right: 2.5rem;">Adicionar Despesa</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<footer id="footer" class="bg-dark shadow fixed-bottom">
+<footer id="footer" class="bg-dark shadow footer fixed-bottom">
   <div class="container">
-    <div class="row justify-content-center mt-3">
-      <p class="titulo-footer">SGP v1.0.0</p>
+    <div class="row justify-content-center mt-4">
+      <p class="titulo-footer">SGP Alpha</p>
     </div>
   </div>
 </footer>
+
+<!-- Modais -->
+
+<div class="modal fade" id="modalAdicionarDespesaSemana1" tabindex="-1" aria-labelledby="modalAdicionarDespesa1Label" aria-hidden="true" style="margin-top: 12rem;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content bg-dark text-light">
+      <div class="modal-header">
+        <h5 class="modal-title">Adicionar Despesa</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="Semanal.php" method="POST">
+          <div class="mb-3">
+            <label for="valorModal1" class="form-label">Valor</label>
+            <input type="number" class="form-control bg-imput text-light" id="valorModal1" name="valor">
+          </div>
+          <div class="mb-3">
+            <label for="dataModal1" class="form-label">Data</label>
+            <input type="date" class="form-control bg-imput text-light" id="dataModal1" name="data">
+          </div>
+          <div class="mb-3">
+            <label for="categoriaModal1" class="form-label">Categoria</label>
+            <select class="form-select bg-imput text-light" id="categoriaModal1" name="categoria">
+              <?php include '../consulta-modal.php' ?>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-light">Adicionar Despesa</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </php>

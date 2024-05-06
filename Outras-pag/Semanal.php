@@ -29,22 +29,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-<HASH>" crossorigin="anonymous" />
 
   <?php
-  // Inclui o arquivo de conexão com o banco de dados
+
   include '../db_connection.php';
 
-  // Verifica se houve mudança de mês
   if (date('d') == 1) {
-      // Adaptação: Extrair o mês e o ano atual
       $mes_ano_atual = date('Ym');
       
-      // Adaptação: Renomear a tabela de despesas para armazenar os dados do mês anterior
       $tabela_mes_anterior = "despesas_$mes_ano_atual";
       $sql_rename = "ALTER TABLE despesas RENAME TO $tabela_mes_anterior";
       if ($conn->query($sql_rename) !== TRUE) {
           echo "Erro ao renomear tabela de despesas: " . $conn->error;
       }
       
-      // Adaptação: Criar uma nova tabela de despesas para o novo mês
       $nova_tabela_despesas = "despesas";
       $sql_create = "CREATE TABLE IF NOT EXISTS $nova_tabela_despesas (
           id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -62,7 +58,7 @@
 
 <body style="background-color: #191f24;">
 
-  <header class="navbar p-1 bg-dark shadow justify-content-start">
+  <header class="navbar p-1 bg-dark shadow justify-content-start fixed-top">
     <div class="col-4">
       <button class="openbtn btn btn-dark" onclick="openNav()">☰</button>
     </div>
@@ -88,10 +84,10 @@
   <!-- Conteúdo da semana 1 -->
   <div class="container mt-5">
     <div class="row">
-      <h1>Semana 1</h1><hr>
+      <h1>Semana 1</h1>
     </div>
     <div class="row justify-content-center">
-      <div class="col-12">
+      <div class="col-12 mt-5">
         <?php include __DIR__ . '/../crud.php'; ?>
       </div>
     </div>
@@ -101,13 +97,22 @@
     </div>
   </div>
 
-<!-- Modal para adicionar despesas da semana 1 -->
+<footer id="footer" class="bg-dark shadow footer fixed-bottom">
+  <div class="container">
+    <div class="row justify-content-center mt-4">
+      <p class="titulo-footer">SGP Alpha</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Modais -->
+
 <div class="modal fade" id="modalAdicionarDespesaSemana1" tabindex="-1" aria-labelledby="modalAdicionarDespesa1Label" aria-hidden="true" style="margin-top: 12rem;">
   <div class="modal-dialog modal-lg">
     <div class="modal-content bg-dark text-light">
       <div class="modal-header">
         <h5 class="modal-title">Adicionar Despesa</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form action="Semanal.php" method="POST">
@@ -127,21 +132,13 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-success">Adicionar Despesa</button>
+            <button type="submit" class="btn btn-light">Adicionar Despesa</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-
-<footer id="footer" class="bg-dark shadow footer mt-5">
-  <div class="container">
-    <div class="row justify-content-center mt-3">
-      <p class="titulo-footer mt-4">SGP v1.0.0</p>
-    </div>
-  </div>
-</footer>
 
 </body>
 </php>

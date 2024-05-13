@@ -53,15 +53,15 @@
       }
   }
 
-    // Query para calcular o total das despesas
-  $sql = "SELECT SUM(valor) AS total_despesas FROM despesas_semanais";
-  $result = $conn->query($sql);
-  $total_despesas = 0;
+      // Query para calcular o total das despesas
+    $sql = "SELECT SUM(valor) AS total_despesas FROM despesas_semanais";
+    $result = $conn->query($sql);
+    $total_despesas = 0;
 
-  if ($result->num_rows > 0) {
-      $row = $result->fetch_assoc();
-      $total_despesas = $row['total_despesas'];
-  }
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $total_despesas = $row['total_despesas'];
+    }
   ?>
 
 </head>
@@ -79,12 +79,15 @@
 
   <!-- Barra lateral -->
   <div id="mySidebar" class="sidebar bg-dark shadow">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <a href="../index.php"><i class="fas fa-home"></i> Início</a>
-    <a href="Mensal.php"><i class="fas fa-chart-line"></i> Gasto Mensal</a>
-    <a href="Semanal.php"><i class="fas fa-calendar-week"></i> Gasto Semanal</a>
-    <a href="Contas-pagar.php"><i class="fas fa-file-invoice-dollar"></i> Contas a Pagar</a>
-  </div>
+    <div class="logo-container">
+        <img src="https://cdn-icons-png.flaticon.com/512/16/16480.png" alt="">
+      </div>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="../index.php"><i class="fas fa-home"></i> Início</a>
+        <a href="Mensal.php"><i class="fas fa-chart-line"></i> Gasto Mensal</a>
+        <a href="Semanal.php"><i class="fas fa-calendar-week"></i> Gasto Semanal</a>
+        <a href="Contas-pagar.php"><i class="fas fa-file-invoice-dollar"></i> Contas a Pagar</a>
+      </div>
 
   <!-- Página principal -->
 
@@ -169,6 +172,9 @@
   </div>
 </div>
 
+<script>
+  AOS.init();
+</script>
 
 </body>
 </php>

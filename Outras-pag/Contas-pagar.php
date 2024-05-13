@@ -52,6 +52,16 @@
           echo "Erro ao criar nova tabela de despesas: " . $conn->error;
       }
   }
+
+        // Query para calcular o total das despesas
+        $sql = "SELECT SUM(valor) AS total_despesas FROM contas_a_pagar";
+        $result = $conn->query($sql);
+        $total_despesas = 0;
+    
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $total_despesas = $row['total_despesas'];
+        }
   ?>
 
 </head>
@@ -69,12 +79,15 @@
 
   <!-- Barra lateral -->
   <div id="mySidebar" class="sidebar bg-dark shadow">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <a href="../index.php"><i class="fas fa-home"></i> Início</a>
-    <a href="Mensal.php"><i class="fas fa-chart-line"></i> Gasto Mensal</a>
-    <a href="Semanal.php"><i class="fas fa-calendar-week"></i> Gasto Semanal</a>
-    <a href="Contas-pagar.php"><i class="fas fa-file-invoice-dollar"></i> Contas a Pagar</a>
-  </div>
+    <div class="logo-container">
+        <img src="https://cdn-icons-png.flaticon.com/512/16/16480.png" alt="">
+      </div>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="../index.php"><i class="fas fa-home"></i> Início</a>
+        <a href="Mensal.php"><i class="fas fa-chart-line"></i> Gasto Mensal</a>
+        <a href="Semanal.php"><i class="fas fa-calendar-week"></i> Gasto Semanal</a>
+        <a href="Contas-pagar.php"><i class="fas fa-file-invoice-dollar"></i> Contas a Pagar</a>
+      </div>
 
   <!-- Página principal -->
 
@@ -84,18 +97,36 @@
   <!-- Conteúdo da semana 1 -->
   <div class="container mt-5">
     <div class="row">
-      <h1>Contas a Pagar</h1>
+      <h2>Contas a Pagar</h2>
     </div>
-    <div class="row justify-content-center">
-      <div class="col-12 mt-5">
-        <?php include __DIR__ . '/../crud.php'; ?>
-      </div>
-    </div>
-      <div class="container mt-1 d-flex justify-content-end">
-        <button class="btn btn-light mb-4" data-bs-toggle="modal" data-bs-target="#modalAdicionarDespesaSemana1">Adicionar Despesa</button>
+
+    <div class="container mt-3" id="main" style="margin-bottom: 2rem;">
+      <div class="row">
+        <div class="card bg-danger shadow rounded" style="max-width: 370px;">
+          <div class="card-body">
+            <img src="../Imagens/Icones/perda.png" alt="" style="max-width: 41px;">
+            <h4 class="card-title text-light mt-3">Total Despesas das Contas</h4>
+            <h4 class="card-text text-light mt-3">R$ <?php echo number_format($total_despesas, 2, ',', '.'); ?></h4>
+            <hr style="color: #fff;">
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+  <div class="container">
+      <div class="row justify-content-center">
+      <div class="col-12">
+        <?php include __DIR__ . '/../contas_pagar_crud.php'; ?>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-1 d-flex justify-content-end">
+    <button class="btn btn-light mb-4" data-bs-toggle="modal" data-bs-target="#modalAdicionarContaPagar">Adicionar Despesa</button>
+    </div>
+  </div>
+</div>
 
 <footer id="footer" class="bg-dark shadow footer fixed-bottom">
   <div class="container">
@@ -107,22 +138,27 @@
 
 <!-- Modais -->
 
-<div class="modal fade" id="modalAdicionarDespesaSemana1" tabindex="-1" aria-labelledby="modalAdicionarDespesa1Label" aria-hidden="true" style="margin-top: 12rem;">
+<div class="modal fade" id="modalAdicionarContaPagar" tabindex="-1" aria-labelledby="modalAdicionarContaPagarLabel" aria-hidden="true" style="margin-top: 12rem;">
   <div class="modal-dialog modal-lg">
     <div class="modal-content bg-dark text-light">
       <div class="modal-header">
-        <h5 class="modal-title">Adicionar Despesa</h5>
+        <h5 class="modal-title">Adicionar Conta a Pagar</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="Semanal.php" method="POST">
+      <form action="Contas-pagar.php" method="POST">
+          <input type="hidden" name="action" value="inserir">
           <div class="mb-3">
-            <label for="valorModal1" class="form-label">Valor</label>
-            <input type="number" class="form-control bg-imput text-light" id="valorModal1" name="valor">
+            <label for="valorModal" class="form-label">Valor</label>
+            <input type="number" class="form-control bg-imput text-light" id="valorModal" name="valor">
           </div>
           <div class="mb-3">
-            <label for="dataModal1" class="form-label">Data</label>
-            <input type="date" class="form-control bg-imput text-light" id="dataModal1" name="data">
+            <label for="dataVencimentoModal" class="form-label">Data de Vencimento</label>
+            <input type="date" class="form-control bg-imput text-light" id="dataVencimentoModal" name="data_vencimento">
+          </div>
+          <div class="mb-3">
+            <label for="parcelasFaltantesModal" class="form-label">Parcelas Faltantes</label>
+            <input type="number" class="form-control bg-imput text-light" id="parcelasFaltantesModal" name="parcelas_faltantes">
           </div>
           <div class="mb-3">
             <label for="categoriaModal1" class="form-label">Categoria</label>
@@ -132,13 +168,17 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-light">Adicionar Despesa</button>
+            <button type="submit" class="btn btn-light">Adicionar Conta</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  AOS.init();
+</script>
 
 </body>
 </php>

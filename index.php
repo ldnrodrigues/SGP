@@ -12,6 +12,9 @@
         <p class="lead text-light">Clique no botão do cabeçalho para começar a navegar. ☰</p>
       </div>
 
+    </div>
+  </div>
+
 <?php include 'footer.php'; ?>
 
 </body>

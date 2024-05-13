@@ -19,31 +19,52 @@ body {
   position: fixed;
   top: 0;
   left: -250px;
-  background-color: #000000;
+  background-color: #222;
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
+  z-index: 2000;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.logo-container {
+  margin-top: 4rem;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  margin-bottom: 4rem; 
+}
+
+.logo-container img {
+  width: 140px; 
 }
 
 .sidebar a {
-  padding: 10px 15px;
+  padding: 15px 20px;
   text-decoration: none;
   font-size: 18px;
-  color: white;
+  color: #ddd;
   display: block;
   transition: 0.3s;
 }
 
 .sidebar a:hover {
-  color: #424649;
+  color: #fff;
+  background-color: #424242;
 }
 
 .sidebar .closebtn {
   position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  color: #ddd;
+  transition: 0.3s;
+}
+
+.sidebar .closebtn:hover {
+  color: #fff;
 }
 
 #main {
@@ -51,8 +72,9 @@ body {
 }
 
 .container-inicial {
-  margin-top: 10rem;
-  margin-bottom: 10rem;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  z-index: 1 !important;
 }
 
 .bg-imput {
@@ -85,10 +107,4 @@ body {
 ::selection {
   background-color: #000000;
   color: #ffffff;
-}
-
-@media (max-width: 991px) {
-  .sidebar {
-    z-index: 1;
-  }
 }

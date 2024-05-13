@@ -16,10 +16,6 @@
     <!-- CSS -->
     <link href="style.css" rel="stylesheet">
 
-    <link href="css/header.css" rel="stylesheet">
-
-    <link href="css/footer.css" rel="stylesheet">
-
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -30,11 +26,13 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-<HASH>" crossorigin="anonymous" />
 
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 </head>
 
 <body style="background-color: #191f24;">
 
-<header class="navbar p-1 bg-dark shadow justify-content-start">
+<header class="navbar p-1 bg-dark shadow justify-content-start fixed-top">
     <div class="col-4">
         <button class="openbtn btn btn-dark" onclick="openNav()">☰</button>
     </div>
@@ -45,9 +43,12 @@
 
 <!-- Barra lateral -->
 <div id="mySidebar" class="sidebar bg-dark shadow">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <a href="index.php"><i class="fas fa-home"></i> Início</a>
-    <a href="Outras-pag/Mensal.php"><i class="fas fa-chart-line"></i> Gasto Mensal</a>
-    <a href="Outras-pag/Semanal.php"><i class="fas fa-calendar-week"></i> Gasto Semanal</a>
-    <a href="Outras-pag/Contas-pagar.php"><i class="fas fa-file-invoice-dollar"></i> Contas a Pagar</a>
-</div>
+    <div class="logo-container">
+        <img src="https://cdn-icons-png.flaticon.com/512/16/16480.png" alt="">
+    </div>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="index.php"><i class="fas fa-home"></i> Início</a>
+        <a href="Outras-pag/Mensal.php"><i class="fas fa-chart-line"></i> Gasto Mensal</a>
+        <a href="Outras-pag/Semanal.php"><i class="fas fa-calendar-week"></i> Gasto Semanal</a>
+        <a href="Outras-pag/Contas-pagar.php"><i class="fas fa-file-invoice-dollar"></i> Contas a Pagar</a>
+    </div>

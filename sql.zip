@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS `contas_a_pagar` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `categoria_id` int(11) NOT NULL,
+  `valor` decimal(10,2) NOT NULL,
+  `data_vencimento` date NOT NULL,
+  `parcelas_faltantes` decimal(2,0) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `categoria_id` (`categoria_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

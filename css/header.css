@@ -28,6 +28,6 @@ header {
 
 @media (max-width: 992px) {
     .navbar-brand {
-        display: none;
+        font-size: 18px;
     }
 }
